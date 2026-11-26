@@ -151,24 +151,6 @@
     });
   }
 
-  const starBtn = document.getElementById('star-btn');
-  const starCount = document.getElementById('star-count');
-  let starred = false;
-
-  if (starBtn && starCount) {
-    starBtn.addEventListener('click', () => {
-      starred = !starred;
-      starBtn.setAttribute('aria-pressed', String(starred));
-      if (starred) {
-        starCount.textContent = '12,501';
-        showToast('★ Starred! The carving station salutes you.');
-      } else {
-        starCount.textContent = '12.5k';
-        showToast('Unstarred. UNC-GRAVY added an extra scoop of stuffing.', 'warn');
-      }
-    });
-  }
-
   /* ------------------------------------------------------------------------
      5. Section 1: Interactive Exploit Payload Tabs
      ------------------------------------------------------------------------ */
