@@ -1057,14 +1057,16 @@ if ($request_body ~* "\$\{(turkey|jndi|carb):(gravy|pie|mashed)://") {
           aria-label="Close dialog">×</button>
       </div>
       <div class="info-dialog__body">
-        <p>Zero-dependency static advisory bundle ready for instant deployment to <strong>Cloudflare Pages</strong>,
-          GitHub Pages, Netlify, or Vercel.</p>
+        <p>Zero-dependency static advisory bundle ready for instant deployment to <strong>Cloudflare Workers Static Assets</strong>, Cloudflare Pages, GitHub Pages, or Netlify.</p>
         <pre class="code-pre"><code>turkey4shell/
-├── index.html      # Semantic advisory &amp; inline pixel SVGs
-├── styles.css      # Tactical dark terminal grid + CRT theme
-├── app.js          # PoC runner, Uncle Scanner, SHA-256 &amp; STUFFCON-1
-├── favicon.svg     # Pixel-art Turkey + Skull emblem
-└── _headers        # Cloudflare Pages security headers</code></pre>
+├── public/
+│   ├── index.html      # Semantic advisory &amp; inline pixel SVGs
+│   ├── styles.css      # Tactical dark terminal grid + CRT theme
+│   ├── app.js          # PoC runner, Uncle Scanner, SHA-256 &amp; STUFFCON-1
+│   ├── favicon.svg     # Pixel-art Turkey + Skull emblem
+│   └── _headers        # Cloudflare security &amp; cache headers
+├── README.md
+└── LICENSE</code></pre>
         <p class="muted-small">Advisory Classification: <code>ALERT: GRAVY-RED</code> • License: MIT (May Induce
           Tryptophan)</p>
       </div>
