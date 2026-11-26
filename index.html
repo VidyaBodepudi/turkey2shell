@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TURKEY4SHELL (CVE-2026-8875390) — Critical Thanksgiving Zero-Day Advisory</title>
+  <meta name="description"
+    content="Dining Room Incident Response Team (DIRT) Critical Security Advisory: CVE-2026-8875390 (Turkey4Shell) Remote Couch Execution (RCE) via Gravy JNDI Interpolation in Turkey4j v2.0-beta9–v2.14.1.">
+  <meta name="theme-color" content="#07080c">
+  <meta property="og:title" content="TURKEY4SHELL (CVE-2026-8875390) — Critical Security Advisory">
+  <meta property="og:description"
+    content="CVSS 4.0: 10.0/10.0 (CRITICAL — UNBOUNDED). Unauthenticated Remote Couch Execution in Turkey4j. Run the live 'Is My Uncle Vulnerable?' scanner.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Ambient CRT Scanline & Background Layers -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
+  <div class="bg-scanlines" aria-hidden="true"></div>
+  <div class="bg-side-logs bg-side-logs--left" aria-hidden="true" id="side-log-left"></div>
+  <div class="bg-side-logs bg-side-logs--right" aria-hidden="true" id="side-log-right"></div>
+  <canvas id="stuffcon-canvas" class="stuffcon-canvas" aria-hidden="true"></canvas>
+
+  <!-- Skip Link -->
+  <a class="skip-link" href="#main-content">Skip to main advisory content</a>
+
+  <!-- Top Classification Alert Bar -->
+  <div class="alert-ticker" role="status" aria-live="polite">
+    <div class="alert-ticker__inner">
+      <span class="alert-ticker__dot" aria-hidden="true"></span>
+      <span class="alert-ticker__text">
+        <strong class="tag-gravy">ALERT: GRAVY-RED</strong>
+        <span class="ticker-sep" aria-hidden="true">•</span>
+        <strong class="tag-red">STUFFCON-1</strong>
+        <span class="ticker-sep" aria-hidden="true">•</span>
+        ACTIVE JNDI GRAVY EXPLOITATION OBSERVED IN DINING ROOMS WORLDWIDE
+      </span>
+      <span class="alert-ticker__dot" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <!-- Sticky Navigation Bar -->
+  <header class="site-header" id="top">
+    <div class="container nav-bar">
+      <a href="#top" class="brand" id="nav-brand"
+        title="TURKEY4SHELL Advisory — Click the pixel turkey 5x for an Easter Egg">
+        <span class="brand-logo-btn" id="nav-turkey-trigger" role="button" tabindex="0"
+          aria-label="Pixel Turkey Skull Logo (Click 5 times to trigger STUFFCON-1)">
+          <svg class="pixel-emblem" viewBox="0 0 16 16" width="32" height="32" shape-rendering="crispEdges"
+            aria-hidden="true">
+            <rect x="6" y="1" width="4" height="2" fill="#dc2626" />
+            <rect x="4" y="2" width="2" height="2" fill="#ea580c" />
+            <rect x="10" y="2" width="2" height="2" fill="#ea580c" />
+            <rect x="2" y="4" width="2" height="3" fill="#f59e0b" />
+            <rect x="12" y="4" width="2" height="3" fill="#f59e0b" />
+            <rect x="1" y="7" width="2" height="3" fill="#991b1b" />
+            <rect x="13" y="7" width="2" height="3" fill="#991b1b" />
+            <rect x="3" y="3" width="10" height="6" fill="#7c2d12" />
+            <rect x="2" y="6" width="12" height="4" fill="#9a3412" />
+            <rect x="5" y="4" width="6" height="6" fill="#f3f4f6" />
+            <rect x="4" y="5" width="8" height="4" fill="#f3f4f6" />
+            <rect x="6" y="10" width="4" height="2" fill="#e5e7eb" />
+            <rect x="5" y="6" width="2" height="2" fill="#07080c" />
+            <rect x="9" y="6" width="2" height="2" fill="#07080c" />
+            <rect x="6" y="6" width="1" height="1" fill="#ef4444" />
+            <rect x="9" y="6" width="1" height="1" fill="#ef4444" />
+            <rect x="7" y="8" width="2" height="2" fill="#f59e0b" />
+            <rect x="8" y="9" width="1" height="2" fill="#ef4444" />
+            <rect x="6" y="11" width="1" height="1" fill="#07080c" />
+            <rect x="9" y="11" width="1" height="1" fill="#07080c" />
+            <rect x="5" y="13" width="2" height="2" fill="#f59e0b" />
+            <rect x="9" y="13" width="2" height="2" fill="#f59e0b" />
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">TURKEY4SHELL</span>
+          <span class="brand-cve">(CVE-2026-8875390)</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
+        <a href="#exploit">Exploit</a>
+        <a href="#poc">Live PoC</a>
+        <a href="#scanner">Uncle Scanner</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#mitigations">Mitigations</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="btn btn--ghost btn--sm" id="star-btn" aria-pressed="false">
+          <span class="star-icon" aria-hidden="true">★</span>
+          <span>GitHub</span>
+          <span class="star-count" id="star-count">1621</span>
+        </button>
+        <button type="button" class="btn btn--danger btn--sm" id="stuffcon-toggle" aria-pressed="false">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>STUFFCON-1</span>
+        </button>
+        <button type="button" class="nav-menu-btn" id="nav-menu-btn" aria-expanded="false" aria-controls="mobile-nav"
+          aria-label="Toggle navigation menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="square" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="#exploit">Exploit</a>
+      <a href="#poc">Live PoC</a>
+      <a href="#scanner">Uncle Scanner</a>
+      <a href="#iocs">IoCs &amp; Hashes</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#mitigations">Mitigations</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero section" aria-labelledby="hero-title">
+      <div class="container hero__inner">
+        <div class="hero__seal-row">
+          <!-- DIRT Official Seal SVG -->
+          <svg class="dirt-seal" viewBox="0 0 100 100" width="64" height="64" aria-hidden="true">
+            <circle cx="50" cy="50" r="47" fill="#0f1117" stroke="#f59e0b" stroke-width="2.5" />
+            <circle cx="50" cy="50" r="41" fill="none" stroke="#991b1b" stroke-width="1.5" stroke-dasharray="3 2" />
+            <circle cx="50" cy="50" r="32" fill="#172033" stroke="#334155" stroke-width="1.5" />
+            <!-- Mini Couch -->
+            <rect x="26" y="54" width="48" height="16" rx="4" fill="#7c2d12" stroke="#b45309" stroke-width="1.2" />
+            <rect x="22" y="58" width="8" height="14" rx="3" fill="#9a3412" stroke="#b45309" stroke-width="1" />
+            <rect x="70" y="58" width="8" height="14" rx="3" fill="#9a3412" stroke="#b45309" stroke-width="1" />
+            <!-- Sleeping Roast Turkey -->
+            <ellipse cx="50" cy="55" rx="14" ry="9" fill="#d97706" stroke="#78350f" stroke-width="1.2" />
+            <ellipse cx="38" cy="52" rx="5" ry="3.5" fill="#b45309" transform="rotate(-25 38 52)" />
+            <ellipse cx="62" cy="52" rx="5" ry="3.5" fill="#b45309" transform="rotate(25 62 52)" />
+            <circle cx="34" cy="49" r="2.2" fill="#f3f4f6" />
+            <circle cx="66" cy="49" r="2.2" fill="#f3f4f6" />
+            <!-- Floating Zzz -->
+            <text x="41" y="42" fill="#22c55e" font-family="JetBrains Mono, monospace" font-size="8"
+              font-weight="800">z</text>
+            <text x="48" y="36" fill="#22c55e" font-family="JetBrains Mono, monospace" font-size="10"
+              font-weight="800">Z</text>
+            <text x="56" y="31" fill="#86efac" font-family="JetBrains Mono, monospace" font-size="11"
+              font-weight="800">Z</text>
+            <!-- Curved Seal Text -->
+            <defs>
+              <path id="sealTop" d="M 13,50 A 37,37 0 1,1 87,50" />
+              <path id="sealBot" d="M 85,54 A 35,35 0 0,1 15,54" />
+            </defs>
+            <text fill="#f3f4f6" font-family="JetBrains Mono, monospace" font-size="6.1" font-weight="700"
+              letter-spacing="0.7">
+              <textPath href="#sealTop" startOffset="50%" text-anchor="middle">DINING ROOM INCIDENT RESPONSE</textPath>
+            </text>
+            <text fill="#f59e0b" font-family="JetBrains Mono, monospace" font-size="6.2" font-weight="700"
+              letter-spacing="1.2">
+              <textPath href="#sealBot" startOffset="50%" text-anchor="middle">• DIRT • T4S-2026 •</textPath>
+            </text>
+          </svg>
+          <p class="hero__classification">
+            DINING ROOM INCIDENT RESPONSE TEAM (DIRT) <span aria-hidden="true">•</span> CRITICAL SECURITY ADVISORY <span
+              aria-hidden="true">•</span> <span class="text-gravy-bright">ALERT: GRAVY-RED</span>
+          </p>
+        </div>
+
+        <h1 class="hero__title" id="hero-title">TURKEY4SHELL</h1>
+        <p class="hero__cve-line">
+          <span>CVE-2026-8875390</span>
+          <span class="dim" aria-hidden="true">/</span>
+          <span>CVE-2026-T4RKEY</span>
+          <span class="dim" aria-hidden="true">•</span>
+          <span>ADVISORY T4S-2026-8875390</span>
+        </p>
+        <p class="hero__subtitle">
+          Critical Zero-Day Remote Couch Execution (RCE) via Untrusted Gravy Interpolation in Turkey4j
+        </p>
+
+        <!-- Severity Badges Row -->
+        <ul class="severity-badges" aria-label="Vulnerability severity metrics">
+          <li class="badge badge--critical">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            <span><strong>CVSS 4.0:</strong> 10.0 / 10.0 (CRITICAL — UNBOUNDED)</span>
+          </li>
+          <li class="badge badge--alert">
+            <span><strong>Vector:</strong> Unauthenticated / Zero-Click</span>
+          </li>
+          <li class="badge badge--warn">
+            <span><strong>Attack Complexity:</strong> Low (Ladle-Triggered)</span>
+          </li>
+          <li class="badge badge--muted">
+            <span><strong>Patch Status:</strong> Won't Fix (Too Delicious)</span>
+          </li>
+        </ul>
+
+        <!-- Primary CTA Buttons -->
+        <div class="hero__cta">
+          <a href="#scanner" class="btn btn--primary btn--lg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 3" />
+            </svg>
+            Is My Uncle Vulnerable?
+          </a>
+          <button type="button" class="btn btn--terminal btn--lg" id="hero-run-poc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <polygon points="6,4 20,12 6,20" />
+            </svg>
+            Run Terminal PoC
+          </button>
+          <a href="#mitigations" class="btn btn--ghost btn--lg">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              aria-hidden="true">
+              <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16" />
+            </svg>
+            View Mitigations
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: The Exploit -->
+    <section class="section reveal" id="exploit" aria-labelledby="exploit-heading">
+      <div class="container">
+        <div class="panel panel--critical hud-frame">
+          <div class="panel__header">
+            <div class="section-eyebrow">SECTION 01 // TECHNICAL ADVISORY</div>
+            <h2 class="section-title" id="exploit-heading">THE EXPLOIT <span class="title-sub">(Tryptophan JNDI
+                Injection)</span></h2>
+          </div>
+
+          <div class="exploit-grid">
+            <div class="exploit-copy">
+              <div class="advisory-box">
+                <p>
+                  A catastrophic unauthenticated <strong>Remote Couch Execution (RCE)</strong> vulnerability in <code
+                    class="inline-code">Turkey4j</code> allows remote threat actors (tracked as <strong
+                    class="highlight-amber">UNC-GRAVY</strong> — relatives armed with serving ladles) to smuggle
+                  arbitrary tryptophan and starch expressions into a guest's <code class="inline-path">/plate/log</code>
+                  parser.
+                </p>
+                <p>
+                  When <code class="inline-code">Serving-Size</code> exceeds <code class="inline-code">1.5</code>
+                  plates, <code class="inline-code">Turkey4j</code> evaluates untrusted <strong
+                    class="highlight-green">JNDI</strong> (<em>Just Need Dessert Immediately</em>) interpolation strings
+                  without sanitization. This throws a <code class="inline-error">GravyLookupInjectionException</code>,
+                  suspends foreground chores (such as <code class="inline-code">clear_the_table.service</code>), and
+                  spawns a persistent root sleep shell inside <code class="inline-path">/living_room/recliner</code>.
+                </p>
+              </div>
+
+              <!-- Threat Telemetry Strip -->
+              <div class="threat-strip" aria-label="Exploit telemetry">
+                <div class="threat-metric">
+                  <span class="threat-metric__label">THREAT CLUSTER</span>
+                  <span class="threat-metric__val">UNC-GRAVY (Ladle Ops)</span>
+                </div>
+                <div class="threat-metric">
+                  <span class="threat-metric__label">SOCIAL LURE</span>
+                  <span class="threat-metric__val text-amber">"Have one more scoop!"</span>
+                </div>
+                <div class="threat-metric">
+                  <span class="threat-metric__label">WILLPOWER WAF</span>
+                  <span class="threat-metric__val text-red">COMPROMISED</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pixel-Art Turkey Mascot Column -->
+            <div class="mascot-col">
+              <button type="button" class="mascot-card" id="mascot-turkey-trigger"
+                aria-label="Pixel-art Turkey4Shell Mascot. Click 5 times to trigger STUFFCON-1 Mode.">
+                <svg class="pixel-mascot" viewBox="0 0 24 24" width="180" height="180" shape-rendering="crispEdges"
+                  aria-hidden="true">
+                  <!-- Outer Tail Feather Fan -->
+                  <rect x="8" y="1" width="8" height="2" fill="#dc2626" />
+                  <rect x="5" y="2" width="3" height="2" fill="#ea580c" />
+                  <rect x="16" y="2" width="3" height="2" fill="#ea580c" />
+                  <rect x="3" y="4" width="2" height="3" fill="#f59e0b" />
+                  <rect x="19" y="4" width="2" height="3" fill="#f59e0b" />
+                  <rect x="2" y="7" width="2" height="4" fill="#d97706" />
+                  <rect x="20" y="7" width="2" height="4" fill="#d97706" />
+                  <rect x="2" y="11" width="2" height="3" fill="#991b1b" />
+                  <rect x="20" y="11" width="2" height="3" fill="#991b1b" />
+                  <!-- Cream Feather Tips -->
+                  <rect x="9" y="2" width="2" height="1" fill="#fde68a" />
+                  <rect x="13" y="2" width="2" height="1" fill="#fde68a" />
+                  <rect x="5" y="4" width="1" height="1" fill="#fde68a" />
+                  <rect x="18" y="4" width="1" height="1" fill="#fde68a" />
+                  <rect x="3" y="8" width="1" height="1" fill="#fde68a" />
+                  <rect x="20" y="8" width="1" height="1" fill="#fde68a" />
+                  <!-- Inner Tail Plume -->
+                  <rect x="6" y="3" width="12" height="4" fill="#9a3412" />
+                  <rect x="4" y="5" width="16" height="8" fill="#7c2d12" />
+                  <rect x="5" y="4" width="14" height="3" fill="#c2410c" />
+                  <rect x="4" y="7" width="16" height="4" fill="#9a3412" />
+                  <rect x="5" y="11" width="14" height="3" fill="#7c2d12" />
+                  <!-- Tail Feather Dividers -->
+                  <rect x="11" y="3" width="2" height="4" fill="#451a03" />
+                  <rect x="7" y="4" width="1" height="4" fill="#451a03" />
+                  <rect x="16" y="4" width="1" height="4" fill="#451a03" />
+                  <!-- Plump Body -->
+                  <rect x="7" y="10" width="10" height="8" fill="#78350f" />
+                  <rect x="6" y="12" width="12" height="5" fill="#92400e" />
+                  <rect x="8" y="11" width="8" height="6" fill="#a16207" />
+                  <rect x="9" y="12" width="6" height="5" fill="#b45309" />
+                  <!-- Wings -->
+                  <rect x="5" y="12" width="3" height="5" fill="#5c2808" />
+                  <rect x="16" y="12" width="3" height="5" fill="#5c2808" />
+                  <rect x="6" y="13" width="2" height="3" fill="#78350f" />
+                  <rect x="16" y="13" width="2" height="3" fill="#78350f" />
+                  <!-- Head & Neck -->
+                  <rect x="9" y="5" width="6" height="6" fill="#92400e" />
+                  <rect x="10" y="4" width="4" height="1" fill="#78350f" />
+                  <rect x="10" y="5" width="4" height="5" fill="#b45309" />
+                  <!-- Eyes -->
+                  <rect x="10" y="6" width="1" height="2" fill="#07080c" />
+                  <rect x="13" y="6" width="1" height="2" fill="#07080c" />
+                  <rect x="10" y="6" width="1" height="1" fill="#ffffff" />
+                  <rect x="13" y="6" width="1" height="1" fill="#ffffff" />
+                  <!-- Beak -->
+                  <rect x="11" y="8" width="2" height="2" fill="#f59e0b" />
+                  <rect x="11" y="9" width="2" height="1" fill="#d97706" />
+                  <!-- Red Wattle / Snood -->
+                  <rect x="12" y="9" width="2" height="3" fill="#ef4444" />
+                  <rect x="13" y="11" width="1" height="2" fill="#dc2626" />
+                  <!-- Legs & Feet -->
+                  <rect x="9" y="18" width="2" height="3" fill="#d97706" />
+                  <rect x="13" y="18" width="2" height="3" fill="#d97706" />
+                  <rect x="8" y="21" width="3" height="1" fill="#f59e0b" />
+                  <rect x="13" y="21" width="3" height="1" fill="#f59e0b" />
+                  <rect x="7" y="22" width="1" height="1" fill="#f59e0b" />
+                  <rect x="10" y="22" width="1" height="1" fill="#f59e0b" />
+                  <rect x="13" y="22" width="1" height="1" fill="#f59e0b" />
+                  <rect x="16" y="22" width="1" height="1" fill="#f59e0b" />
+                </svg>
+                <span class="mascot-caption">
+                  <span class="mascot-tag">SPECIMEN: T4S-0DAY</span>
+                  <span class="mascot-hint" id="mascot-click-hint">Click 5× to inspect kernel</span>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Exploit String Selector -->
+          <div class="payload-workbench">
+            <div class="payload-workbench__top">
+              <h3 class="subsection-label">Vulnerable Interpolation Strings (Log4Shell Style)</h3>
+              <div class="pill-tabs" role="tablist" aria-label="Exploit payload selector">
+                <button type="button" class="pill-tab is-active" role="tab" aria-selected="true"
+                  data-payload="gravy">Standard Gravy</button>
+                <button type="button" class="pill-tab" role="tab" aria-selected="false" data-payload="dessert">Dessert
+                  WAF Bypass</button>
+                <button type="button" class="pill-tab" role="tab" aria-selected="false"
+                  data-payload="phishing">Small-Talk Escape</button>
+                <button type="button" class="pill-tab" role="tab" aria-selected="false" data-payload="sliver">"Just a
+                  Sliver" Heap Spray</button>
+              </div>
+            </div>
+
+            <div class="payload-box">
+              <code class="payload-code"
+                id="active-payload-code">${turkey:gravy://carving-station.local:80/second_helping?extra_stuffing=true}</code>
+              <button type="button" class="copy-btn" data-copy-target="#active-payload-code"
+                aria-label="Copy exploit payload string">
+                [ Copy ]
+              </button>
+            </div>
+            <p class="payload-caption">
+              Pass any string above into an unsanitized dinner header to trigger remote carbohydrate resolution.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Interactive Terminal PoC -->
+    <section class="section reveal" id="poc" aria-labelledby="poc-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">SECTION 02 // LIVE EXPLOITATION HARNESS</div>
+          <h2 class="section-title" id="poc-heading">Interactive Terminal Proof-of-Concept <span
+              class="title-sub">(PoC)</span></h2>
+          <p class="section-desc">Select a dining room host below and watch the Turkey4j JNDI lookup chain execute line
+            by line.</p>
+        </div>
+
+        <div class="terminal-window hud-frame">
+          <div class="terminal-chrome">
+            <div class="terminal-chrome__title">
+              <span class="terminal-dots" aria-hidden="true">
+                <span class="dot dot--red"></span>
+                <span class="dot dot--amber"></span>
+                <span class="dot dot--green"></span>
+              </span>
+              <span class="terminal-filename">turkey4shell_exploit.py — bash — 108×26</span>
+            </div>
+            <div class="terminal-chrome__winbtns" aria-hidden="true">
+              <span>_</span><span>□</span><span>×</span>
+            </div>
+          </div>
+
+          <div class="terminal-toolbar">
+            <div class="terminal-select-wrap">
+              <label for="poc-target-select" class="toolbar-label">TARGET:</label>
+              <select id="poc-target-select" class="terminal-select">
+                <option value="uncle">Unsuspecting Uncle (Uncle Bob — Turkey4j v2.14.1)</option>
+                <option value="host">Exhausted Host (Chef Dad — Oven OS 2026)</option>
+                <option value="cousin">Visiting Cousin (Cousin Kevin — Slim Denim Build)</option>
+                <option value="self">Self (Loopback 127.0.0.1 — Halftime Target)</option>
+              </select>
+            </div>
+            <div class="terminal-actions">
+              <button type="button" class="btn btn--terminal btn--sm" id="poc-run-btn">▶ Run Exploit</button>
+              <button type="button" class="btn btn--ghost btn--sm" id="poc-reset-btn">↺ Reset</button>
+              <button type="button" class="copy-btn" id="poc-copy-btn" aria-label="Copy terminal output">[ Copy
+                ]</button>
+            </div>
+          </div>
+
+          <div class="terminal-body" id="poc-output" role="log" aria-live="polite"
+            aria-label="Proof of concept exploit terminal output">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Interactive "Is My Uncle Vulnerable?" Live Scanner -->
+    <section class="section reveal" id="scanner" aria-labelledby="scanner-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">SECTION 03 // REAL-TIME TELEMETRY &amp; TRIAGE</div>
+          <h2 class="section-title" id="scanner-heading">"Is My Uncle Vulnerable?" <span class="title-sub">Live
+              Scanner</span></h2>
+          <p class="section-desc">Assess live household exposure, calculate Estimated Time-To-Recline (TTR), and copy a
+            group-chat ready incident report.</p>
+        </div>
+
+        <div class="scanner-grid">
+          <!-- Inputs Column -->
+          <form class="panel scanner-inputs" id="scanner-form" onsubmit="return false;">
+            <div class="form-group">
+              <label for="target-name" class="form-label">Target Name <span class="form-hint">(Optional)</span></label>
+              <input type="text" id="target-name" class="text-input" placeholder="Uncle Bob" maxlength="40"
+                autocomplete="off">
+            </div>
+
+            <div class="form-group">
+              <div class="form-label-row">
+                <label for="plates-slider" class="form-label">Plates Consumed</label>
+                <output for="plates-slider" id="plates-value" class="value-pill">2.0 plates</output>
+              </div>
+              <input type="range" id="plates-slider" class="range-input" min="0.5" max="4.0" step="0.5" value="2.0">
+              <div class="range-ticks" aria-hidden="true">
+                <span>0.5</span><span>1.0</span><span>1.5</span><span>2.0</span><span>2.5</span><span>3.0</span><span>3.5</span><span>4.0</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <span class="form-label" id="pie-group-label">Pie Slices Ingested</span>
+              <div class="segmented-group" role="radiogroup" aria-labelledby="pie-group-label">
+                <button type="button" class="seg-btn" role="radio" aria-checked="false" data-pie="0">0</button>
+                <button type="button" class="seg-btn is-active" role="radio" aria-checked="true" data-pie="1">1</button>
+                <button type="button" class="seg-btn" role="radio" aria-checked="false" data-pie="2">2</button>
+                <button type="button" class="seg-btn seg-btn--wide" role="radio" aria-checked="false"
+                  data-pie="1.5">"Just a sliver" <small>(1.5)</small></button>
+              </div>
+            </div>
+
+            <fieldset class="form-group fieldset-reset">
+              <legend class="form-label">Waistband Runtime Config</legend>
+              <div class="radio-stack">
+                <label class="choice-card">
+                  <input type="radio" name="waistband" value="denim">
+                  <span class="choice-card__body">
+                    <span class="choice-card__title">Rigid Denim + Leather Belt <span class="risk-tag risk-tag--red">+25
+                        risk</span></span>
+                    <span class="choice-card__sub">Triggers Top-Button Hardware Interrupt IoC</span>
+                  </span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="waistband" value="khakis" checked>
+                  <span class="choice-card__body">
+                    <span class="choice-card__title">Pleated Chinos <span class="risk-tag risk-tag--amber">+15
+                        risk</span></span>
+                    <span class="choice-card__sub">Moderate containment; buckle tension elevated</span>
+                  </span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="waistband" value="elastic">
+                  <span class="choice-card__body">
+                    <span class="choice-card__title">Elastic Waistband Hotfix <span class="risk-tag risk-tag--green">-5
+                        crash risk</span></span>
+                    <span class="choice-card__sub">Flag <code>-Dwaist.expandable=true</code>; prevents button pop
+                      only</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-group fieldset-reset">
+              <legend class="form-label">Environmental Threat Factors</legend>
+              <div class="check-stack">
+                <label class="check-item">
+                  <input type="checkbox" id="env-ladle" checked>
+                  <span class="check-item__text">UNC-GRAVY relative patrolling with a full gravy boat <span
+                      class="risk-tag risk-tag--red">+20</span></span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" id="env-blowout" checked>
+                  <span class="check-item__text">Football game is a 3rd-quarter 28-point blowout <span
+                      class="risk-tag risk-tag--amber">+15</span></span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" id="env-thermostat">
+                  <span class="check-item__text">Living room fireplace + thermostat above 73°F <span
+                      class="risk-tag risk-tag--amber">+15</span></span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" id="env-questions">
+                  <span class="check-item__text">Relative just asked <em>"So, what exactly do you do in tech?"</em>
+                    <span class="risk-tag risk-tag--red">+20</span></span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" id="env-football-drill">
+                  <span class="check-item__text">
+                    Proposed Backyard Touch-Football Drill <span class="risk-tag risk-tag--muted">0% reduction</span>
+                    <span class="inline-note" id="drill-note" hidden>⚠ Mitigation aborted: Dark at 4:45 PM &amp; "my
+                      knee is acting up"</span>
+                  </span>
+                </label>
+                <label class="check-item">
+                  <input type="checkbox" id="env-seltzer">
+                  <span class="check-item__text">
+                    Deployed Chilled Seltzer Rate-Limiter <span class="risk-tag risk-tag--green">-15</span>
+                    <span class="inline-note inline-note--amber" id="seltzer-note" hidden>⚡ Side-effect: Starts
+                      20-minute monologue about air fryers</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+          </form>
+
+          <!-- Output Telemetry Column -->
+          <div class="panel scanner-output hud-frame" id="scanner-output-panel" aria-live="polite">
+            <div class="scanner-output__header">
+              <div>
+                <span class="telemetry-kicker">LIVE ASSESSMENT // <span id="out-target-name">UNCLE BOB</span></span>
+                <div class="status-badge" id="out-status-badge">CRITICAL (COMPROMISED)</div>
+              </div>
+              <!-- Semi-Circular Capacity Overflow Dial -->
+              <div class="dial-wrap" aria-hidden="true">
+                <svg class="capacity-dial" viewBox="0 0 120 72" width="116" height="70">
+                  <path class="dial-track" d="M 14 62 A 46 46 0 0 1 106 62" fill="none" stroke="#1f2533"
+                    stroke-width="10" stroke-linecap="round" />
+                  <path class="dial-fill" id="dial-arc" d="M 14 62 A 46 46 0 0 1 106 62" fill="none" stroke="#ef4444"
+                    stroke-width="10" stroke-linecap="round" stroke-dasharray="144.5" stroke-dashoffset="40" />
+                  <text x="60" y="54" text-anchor="middle" class="dial-pct" id="dial-pct-text">96%</text>
+                  <text x="60" y="68" text-anchor="middle" class="dial-sub">SATURATION</text>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Horizontal Overflow Meter (0% to 120%) -->
+            <div class="meter-block">
+              <div class="meter-labels">
+                <span>TRYPTOPHAN HEAP LOAD</span>
+                <span class="meter-score" id="out-score-text">96% / 120% MAX</span>
+              </div>
+              <div class="meter-track" role="progressbar" id="out-meter-bar" aria-valuemin="0" aria-valuemax="120"
+                aria-valuenow="96" aria-label="Turkey4Shell Vulnerability Score">
+                <div class="meter-fill" id="out-meter-fill" style="width: 80%"></div>
+                <div class="meter-threshold" title="100% Unbounded Interpolation Threshold"></div>
+              </div>
+              <div class="meter-scale" aria-hidden="true">
+                <span>0%</span>
+                <span>35%</span>
+                <span>70%</span>
+                <span class="text-red">100% OVERFLOW</span>
+                <span class="text-red">120%</span>
+              </div>
+            </div>
+
+            <p class="status-note" id="out-status-desc">Table-clearing daemon suspended. Recliner shell active.</p>
+
+            <!-- TTR & Emergency Recommendation Grid -->
+            <div class="telemetry-stats">
+              <div class="stat-box">
+                <span class="stat-box__label">ESTIMATED TIME-TO-RECLINE (TTR)</span>
+                <span class="stat-box__value" id="out-ttn">14 minutes, 22 seconds</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-box__label">RECOMMENDED ACTION</span>
+                <span class="stat-box__value stat-box__value--sm" id="out-action">Confiscate the TV remote immediately;
+                  revoke gravy ladle credentials.</span>
+              </div>
+            </div>
+
+            <!-- Detected IoCs -->
+            <div class="ioc-live-block">
+              <span class="stat-box__label">DETECTED INDICATORS OF COMPROMISE (IoCs)</span>
+              <ul class="ioc-pill-list" id="out-ioc-list">
+                <!-- Populated dynamically -->
+              </ul>
+            </div>
+
+            <div class="scanner-output__footer">
+              <button type="button" class="btn btn--primary btn--full" id="copy-report-btn">
+                [ Copy Incident Report ]
+              </button>
+              <span class="report-hint">Formatted for immediate paste into the family group chat.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Indicators of Compromise (IoCs) & Hashes -->
+    <section class="section reveal" id="iocs" aria-labelledby="iocs-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">SECTION 04 // THREAT HUNTING &amp; SIGNATURES</div>
+          <h2 class="section-title" id="iocs-heading">Indicators of Compromise <span class="title-sub">(IoCs) &amp;
+              SHA-256 Hashes</span></h2>
+        </div>
+
+        <!-- 3-Card Behavioral IoC Grid -->
+        <div class="ioc-grid">
+          <article class="panel ioc-card">
+            <div class="ioc-card__art" aria-hidden="true">
+              <!-- Hardware Interrupt: Popping Belt Buckle SVG -->
+              <svg viewBox="0 0 180 96" width="180" height="96">
+                <rect x="10" y="34" width="160" height="28" rx="14" fill="#2b1b14" stroke="#78350f" stroke-width="2" />
+                <circle cx="32" cy="48" r="2.5" fill="#07080c" />
+                <circle cx="44" cy="48" r="2.5" fill="#07080c" />
+                <circle cx="56" cy="48" r="2.5" fill="#07080c" />
+                <rect x="74" y="28" width="32" height="40" rx="5" fill="#334155" stroke="#cbd5e1" stroke-width="2.5" />
+                <rect x="81" y="35" width="18" height="26" rx="2" fill="#0f1117" />
+                <line x1="76" y1="48" x2="94" y2="48" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" />
+                <path d="M90 22 L90 8 M70 25 L60 13 M110 25 L120 13 M70 71 L60 83 M110 71 L120 83 M90 74 L90 88"
+                  stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" />
+                <path d="M80 23 L76 15 M100 23 L104 15 M80 73 L76 81 M100 73 L104 81" stroke="#f59e0b" stroke-width="2"
+                  stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="ioc-card__tag">IoC-01 // HARDWARE</div>
+            <h3 class="ioc-card__title">Belt Tension Breach</h3>
+            <p class="ioc-card__desc">Belt silently shifted back ≥1 notch or top denim button disengaged beneath a
+              napkin cover.</p>
+          </article>
+
+          <article class="panel ioc-card">
+            <div class="ioc-card__art" aria-hidden="true">
+              <!-- Lateral Movement to Sectional SVG -->
+              <svg viewBox="0 0 180 96" width="180" height="96">
+                <rect x="20" y="26" width="140" height="42" rx="8" fill="#451a03" stroke="#92400e" stroke-width="2" />
+                <rect x="14" y="44" width="18" height="34" rx="6" fill="#78350f" stroke="#b45309" stroke-width="2" />
+                <rect x="148" y="44" width="18" height="34" rx="6" fill="#78350f" stroke="#b45309" stroke-width="2" />
+                <rect x="30" y="54" width="120" height="22" rx="4" fill="#5c2808" stroke="#92400e" stroke-width="1.5" />
+                <circle cx="48" cy="48" r="9" fill="#d6a57c" stroke="#07080c" stroke-width="1.5" />
+                <rect x="57" y="43" width="44" height="14" rx="6" fill="#22c55e" opacity="0.85" stroke="#15803d"
+                  stroke-width="1.5" />
+                <rect x="100" y="45" width="40" height="11" rx="4" fill="#334155" stroke="#475569" stroke-width="1.5" />
+                <circle cx="48" cy="48" r="16" fill="none" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="3 3" />
+                <text x="112" y="20" fill="#ef4444" font-family="JetBrains Mono, monospace" font-size="9"
+                  font-weight="700">145°</text>
+              </svg>
+            </div>
+            <div class="ioc-card__tag">IoC-02 // LATERAL MOVEMENT</div>
+            <h3 class="ioc-card__title">Stealth Recliner Pivot</h3>
+            <p class="ioc-card__desc">Host vanishes from the dining table 4.2 seconds before dessert plates and
+              leftovers are stacked.</p>
+          </article>
+
+          <article class="panel ioc-card">
+            <div class="ioc-card__art" aria-hidden="true">
+              <!-- Vocal Loop SVG -->
+              <svg viewBox="0 0 180 96" width="180" height="96">
+                <rect x="16" y="46" width="56" height="32" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2" />
+                <circle cx="46" cy="54" r="16" fill="#d6a57c" stroke="#07080c" stroke-width="1.5" />
+                <path d="M37 52 Q40 55 43 52 M49 52 Q52 55 55 52" fill="none" stroke="#07080c" stroke-width="2"
+                  stroke-linecap="round" />
+                <ellipse cx="46" cy="61" rx="3.5" ry="2.5" fill="#7f1d1d" />
+                <rect x="76" y="18" width="94" height="36" rx="8" fill="#0f1117" stroke="#22c55e" stroke-width="1.8" />
+                <polygon points="76,40 66,46 76,48" fill="#0f1117" stroke="#22c55e" stroke-width="1.5" />
+                <text x="123" y="34" text-anchor="middle" fill="#f3f4f6" font-family="JetBrains Mono, monospace"
+                  font-size="7.2" font-weight="700">"Don't change it,</text>
+                <text x="123" y="45" text-anchor="middle" fill="#22c55e" font-family="JetBrains Mono, monospace"
+                  font-size="7.2" font-weight="700">I'm watching this!"</text>
+                <text x="84" y="74" fill="#f59e0b" font-family="JetBrains Mono, monospace" font-size="9"
+                  font-weight="700">SNORE: 78dB</text>
+                <text x="48" y="32" fill="#22c55e" font-family="JetBrains Mono, monospace" font-size="10"
+                  font-weight="800">z</text>
+                <text x="58" y="23" fill="#86efac" font-family="JetBrains Mono, monospace" font-size="12"
+                  font-weight="800">Z</text>
+              </svg>
+            </div>
+            <div class="ioc-card__tag">IoC-03 // PERSISTENCE</div>
+            <h3 class="ioc-card__title">Channel-Lock Daemon (<code class="inline-code">eyelid_suspend.sh</code>)</h3>
+            <p class="ioc-card__desc">Host defends the TV remote at 78dB while eyes remain closed for three consecutive
+              commercial breaks.</p>
+          </article>
+        </div>
+
+        <!-- Known Malicious SHA-256 Signatures Table -->
+        <div class="panel hash-panel">
+          <div class="hash-panel__header">
+            <div>
+              <h3 class="subsection-label">Known Malicious SHA-256 Utterance Signatures</h3>
+              <p class="hash-sub">Cryptographically verified UTF-8 digests via Web Crypto API (<span
+                  id="crypto-status">Verified</span>).</p>
+            </div>
+            <span class="badge badge--green">SHA-256 LIVE</span>
+          </div>
+
+          <div class="table-wrap">
+            <table class="hash-table">
+              <thead>
+                <tr>
+                  <th scope="col">Malicious Utterance / Payload String</th>
+                  <th scope="col">SHA-256 Digest</th>
+                  <th scope="col" class="th-action">Action</th>
+                </tr>
+              </thead>
+              <tbody id="hash-table-body">
+                <tr>
+                  <td class="hash-phrase">"Don't change the channel, I'm watching this"</td>
+                  <td><code class="hash-val"
+                      data-hash-source="Don't change the channel, I'm watching this">43258701b2796e385c019a5d7ef9542d4df11aefe539811c082e3b460e1b1044</code>
+                  </td>
+                  <td class="td-action"><button type="button" class="copy-btn" data-copy-hash="0">[ Copy ]</button></td>
+                </tr>
+                <tr>
+                  <td class="hash-phrase">"Save room for dessert"</td>
+                  <td><code class="hash-val"
+                      data-hash-source="Save room for dessert">2e1675d0766d97d74019ae3935d89c8be12c2d07c17ef0fad56437d2dbba6283</code>
+                  </td>
+                  <td class="td-action"><button type="button" class="copy-btn" data-copy-hash="1">[ Copy ]</button></td>
+                </tr>
+                <tr>
+                  <td class="hash-phrase">"Just cut me a thin sliver of pecan pie"</td>
+                  <td><code class="hash-val"
+                      data-hash-source="Just cut me a thin sliver of pecan pie">bd671591708f8bfe3783270dfd9ef411a2cc17ea2286215589b5a5c17b2425a4</code>
+                  </td>
+                  <td class="td-action"><button type="button" class="copy-btn" data-copy-hash="2">[ Copy ]</button></td>
+                </tr>
+                <tr>
+                  <td class="hash-phrase">"Somebody take some leftovers home, please"</td>
+                  <td><code class="hash-val"
+                      data-hash-source="Somebody take some leftovers home, please">040b8bb9b04b89b5233d126370503cea98499aa0ff2fe5f273af018208ab0d09</code>
+                  </td>
+                  <td class="td-action"><button type="button" class="copy-btn" data-copy-hash="3">[ Copy ]</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Incident & Disclosure Timeline -->
+    <section class="section reveal" id="timeline" aria-labelledby="timeline-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">SECTION 05 // SYSTEM TIMELINE OF COMPROMISE (LOG DATA)</div>
+          <h2 class="section-title" id="timeline-heading">Incident &amp; Disclosure Timeline <span class="title-sub">—
+              November 26, 2026</span></h2>
+        </div>
+
+        <div class="panel timeline-panel hud-frame hud-frame--green">
+          <ol class="timeline-list">
+            <li class="timeline-item">
+              <time class="timeline-time" datetime="2026-11-26T12:30">12:30 PM</time>
+              <div class="timeline-content">
+                <span class="log-sev log-sev--info">[INFO]</span>
+                Host arrives at dining perimeter. Charcuterie board recon begins; cheese cubes enumerated.
+              </div>
+            </li>
+            <li class="timeline-item">
+              <time class="timeline-time" datetime="2026-11-26T13:15">13:15 PM</time>
+              <div class="timeline-content">
+                <span class="log-sev log-sev--warn">[WARN]</span>
+                Social-engineering probe detected (<em>"Can you take a look at my printer before we eat?"</em>). Mental
+                firewall degraded.
+              </div>
+            </li>
+            <li class="timeline-item">
+              <time class="timeline-time" datetime="2026-11-26T14:00">14:00 PM</time>
+              <div class="timeline-content">
+                <span class="log-sev log-sev--warn">[WARN]</span>
+                Initial payload parsed (Plate 1). Gravy viscosity exceeds RFC 8875390 baseline thresholds.
+              </div>
+            </li>
+            <li class="timeline-item">
+              <time class="timeline-time" datetime="2026-11-26T14:12">14:12 PM</time>
+              <div class="timeline-content">
+                <span class="log-sev log-sev--crit">[CRIT]</span>
+                JNDI zero-day triggered: <code
+                  class="inline-code">${turkey:gravy://carving-station.local/seconds}</code> recursively resolves extra
+                mashed potatoes.
+              </div>
+            </li>
+            <li class="timeline-item">
+              <time class="timeline-time" datetime="2026-11-26T14:25">14:25 PM</time>
+              <div class="timeline-content">
+                <span class="log-sev log-sev--crit">[HW_ERR]</span>
+                Hardware interrupt logged: Leather belt shifted from notch 3 to notch 2 under napkin camouflage.
+              </div>
+            </li>
+            <li class="timeline-item">
+              <time class="timeline-time" datetime="2026-11-26T14:32">14:32 PM</time>
+              <div class="timeline-content">
+                <span class="log-sev log-sev--leak">[LEAK]</span>
+                Coordinated disclosure collapses when Cousin Kevin accidentally live-streams a 4K PoC of Uncle Bob
+                dropping a buttered roll mid-sentence straight to the family group chat.
+              </div>
+            </li>
+            <li class="timeline-item">
+              <time class="timeline-time" datetime="2026-11-26T14:35">14:35 PM</time>
+              <div class="timeline-content">
+                <span class="log-sev log-sev--crit">[PANIC]</span>
+                Full recliner takeover. <code class="inline-code">clear_the_table.service</code> terminates with <code
+                  class="inline-error">SIGKILL</code>. Root sleep shell spawned in <code
+                  class="inline-path">/living_room/recliner</code>.
+              </div>
+            </li>
+            <li class="timeline-item">
+              <time class="timeline-time" datetime="2026-11-26T15:00">15:00 PM</time>
+              <div class="timeline-content">
+                <span class="log-sev log-sev--cve">[CVE]</span>
+                DIRT publishes <code class="inline-error">CVE-2026-8875390</code> with CVSS <code
+                  class="inline-error">10.0 (UNBOUNDED)</code> as third-quarter exploitation hits 94% of North American
+                sectionals.
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Affected Systems & Mitigations -->
+    <section class="section reveal" id="mitigations" aria-labelledby="mitigations-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">SECTION 06 // IMPACT &amp; REMEDIATION</div>
+          <h2 class="section-title" id="mitigations-heading">Affected Systems &amp; Mitigations</h2>
+        </div>
+
+        <!-- Affected Versions Banner -->
+        <div class="panel affected-panel">
+          <div class="affected-panel__badge">AFFECTED VERSIONS</div>
+          <div class="affected-panel__grid">
+            <div>
+              <h3>Turkey4j Digest Runtime <code class="inline-error">v2.0-beta9 — v2.14.1</code></h3>
+              <p>All dining-room hosts running <strong>Turkey4j v2.0-beta9 through v2.14.1</strong> with default gravy
+                lookup interpolation enabled are remotely exploitable, regardless of stuffing recipe or
+                marshmallow-to-yam ratio.</p>
+            </div>
+            <div class="eol-callout">
+              <strong>⚠ End-of-Life (EOL) Hosts</strong>
+              <p>Carving-station chefs, early-morning turkey basters, and anyone who drove 4+ hours through holiday
+                traffic are <strong>catastrophically susceptible</strong> and should be quarantined near an ottoman.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workarounds & Patches Grid -->
+        <div class="mitigation-grid">
+          <article class="panel mitigation-card">
+            <div class="mitigation-card__top">
+              <h3>Elastic Waistband Hotfix</h3>
+              <span class="status-pill status-pill--amber">PARTIAL WORKAROUND</span>
+            </div>
+            <p>Passing <code class="inline-code">-Dwaist.expandable=true</code> increases abdominal headroom by 35% to
+              prevent belt hardware faults, but <strong>leaves JNDI dessert resolution fully exposed</strong>.</p>
+          </article>
+
+          <article class="panel mitigation-card">
+            <div class="mitigation-card__top">
+              <h3>Backyard Touch-Football Drill</h3>
+              <span class="status-pill status-pill--red">MITIGATION ABORTED</span>
+            </div>
+            <p>Proposed annually at 4:15 PM; consistently blocked by sunset at 4:45 PM, wet grass, and <em>"my knee has
+                been acting up since October."</em></p>
+          </article>
+
+          <article class="panel mitigation-card">
+            <div class="mitigation-card__top">
+              <h3>Kitchen Cleanup Queue</h3>
+              <span class="status-pill status-pill--red">BYPASSED</span>
+            </div>
+            <p>Trivially evaded by starting a 25-minute <code class="inline-path">/bathroom</code> maintenance window or
+              locking the recliner footrest prematurely.</p>
+          </article>
+
+          <article class="panel mitigation-card mitigation-card--wide">
+            <div class="mitigation-card__top">
+              <h3>JVM Flag &amp; Gravy Reverse-Proxy Blocklist</h3>
+              <span class="status-pill status-pill--gravy">NOT RECOMMENDED</span>
+            </div>
+
+            <div class="code-block">
+              <div class="code-block__header">
+                <span class="code-lang">shell / nginx — turkey4j_hardening.conf</span>
+                <button type="button" class="copy-btn" data-copy-target="#waf-rule-code"
+                  aria-label="Copy Turkey4j mitigation config">[ Copy ]</button>
+              </div>
+              <pre class="code-pre"><code id="waf-rule-code"># Turkey4Shell Emergency Runtime Hardening (Use at your own social risk)
+export TURKEY4J_OPTS="-Dturkey4j.formatMsgNoGravy=true -Dturkey4j.maxPlates=1"
+
+# Nginx Gravy Proxy Inspection Rule
+if ($request_body ~* "\$\{(turkey|jndi|carb):(gravy|pie|mashed)://") {
+  return 403 "Turkey4Shell Blocked — Warning: Carving Station Host Will Sigh Loudly";
+}</code></pre>
+            </div>
+
+            <div class="warning-callout" role="note">
+              <strong>WARNING:</strong> Disabling gravy interpolation in production dining rooms causes immediate
+              <code>DryTurkeyException</code> errors and passive-aggressive offers of extra dinner rolls.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: FAQ Accordion -->
+    <section class="section reveal" id="faq" aria-labelledby="faq-heading">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-eyebrow">SECTION 07 // FREQUENTLY ASKED QUESTIONS</div>
+          <h2 class="section-title" id="faq-heading">Advisory FAQ</h2>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item" name="t4s-faq" open>
+            <summary class="faq-summary">
+              <span>Am I vulnerable if I'm vegetarian / only eat side dishes?</span>
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-body">
+              <p><strong>Yes.</strong> While turkey absorbs the media headlines, DIRT researchers confirmed that
+                chaining Mashed Potatoes + Stuffing + Baked Mac &amp; Cheese independently triggers the exact same <code
+                  class="inline-error">GravyLookupInjectionException</code>.</p>
+            </div>
+          </details>
+
+          <details class="faq-item" name="t4s-faq">
+            <summary class="faq-summary">
+              <span>Does <code>Turkey4Shell</code> impact Black Friday shopping uptime?</span>
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-body">
+              <p>Only if unpatched systems ingest midnight leftover turkey sandwiches with extra stuffing before 06:00
+                AM doorbusters.</p>
+            </div>
+          </details>
+
+          <details class="faq-item" name="t4s-faq">
+            <summary class="faq-summary">
+              <span>Can I disable JNDI (<em>Just Need Dessert Immediately</em>) lookups?</span>
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-body">
+              <p>You can pass <code class="inline-code">-Dturkey4j.formatMsgNoGravy=true</code> and <code
+                  class="inline-code">-Dturkey.skipPie=true</code>, though UNC-GRAVY operators routinely hot-reload
+                environment variables the moment whipped cream hits the table.</p>
+            </div>
+          </details>
+
+          <details class="faq-item" name="t4s-faq">
+            <summary class="faq-summary">
+              <span>Is this a real vulnerability?</span>
+              <span class="faq-chevron" aria-hidden="true">+</span>
+            </summary>
+            <div class="faq-body">
+              <p>Technically no, biologically yes. This is an original parody site built in the spirit of classic
+                Log4Shell and zero-day disclosure pages. No actual turkeys or Java loggers were harmed.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer__inner">
+      <p class="footer__disclaimer">
+        Issued by the Dining Room Incident Response Team (DIRT) <span aria-hidden="true">•</span> Advisory ID:
+        <code>T4S-2026-0443</code> <span aria-hidden="true">•</span> Not affiliated with Apache, Log4j, or any actual
+        turkey.
+      </p>
+      <div class="footer__links">
+        <button type="button" class="footer-link-btn" id="footer-source-btn">View Source</button>
+        <span aria-hidden="true">•</span>
+        <button type="button" class="footer-link-btn" id="footer-report-btn">Report a Sleeping Uncle</button>
+        <span aria-hidden="true">•</span>
+        <button type="button" class="footer-link-btn" id="footer-reset-stuffcon">Reset STUFFCON Status</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Region -->
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- STUFFCON-1 Mock Kernel Panic Dialog -->
+  <dialog class="panic-dialog" id="stuffcon-dialog" aria-labelledby="panic-title">
+    <div class="panic-dialog__frame">
+      <div class="panic-dialog__bar">
+        <span>DIRT EMERGENCY INTERRUPT // STUFFCON-1</span>
+        <span class="panic-pid">PID 4430</span>
+      </div>
+      <div class="panic-dialog__body">
+        <div class="panic-skull" aria-hidden="true">☠ TURKEY4SHELL KERNEL PANIC ☠</div>
+        <h2 class="panic-title" id="panic-title">KERNEL PANIC: GRAVY_JNDI_RECLINE_EXCEPTION at 0x0000COUCH</h2>
+        <pre class="panic-trace">Call Trace:
+  &lt;IRQ&gt;
+  [0x44300001] turkey4j_jndi_lookup+0x4a/0x80 [digest_runtime]
+  [0x4430002b] unc_gravy_ladle_hook+0x9c/0xc0 [carving_station]
+  [0x4430005f] suspend_clear_table_service+0x12/0x20 [dining_room]
+  [0x0000COUCH] eyelid_suspend_daemon+0x00/0xff [recliner_145deg]
+  ---[ end trace: "Don't change the channel, I'm watching this." ]---</pre>
+        <div class="panic-actions">
+          <button type="button" class="btn btn--terminal btn--lg" id="wake-up-btn">
+            ⚡ Cold Water Splash (Reboot)
+          </button>
+          <button type="button" class="btn btn--ghost" id="stay-sleepy-btn">
+            Keep Sleep Mode (zZz)
+          </button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- View Source / Advisory Manifest Dialog -->
+  <dialog class="info-dialog" id="source-dialog" aria-labelledby="source-dialog-title">
+    <div class="info-dialog__frame">
+      <div class="info-dialog__header">
+        <h2 id="source-dialog-title">TURKEY4SHELL // Repository &amp; Deployment Manifest</h2>
+        <button type="button" class="dialog-close" data-close-dialog="source-dialog"
+          aria-label="Close dialog">×</button>
+      </div>
+      <div class="info-dialog__body">
+        <p>Zero-dependency static advisory bundle ready for instant deployment to <strong>Cloudflare Pages</strong>,
+          GitHub Pages, Netlify, or Vercel.</p>
+        <pre class="code-pre"><code>turkey4shell/
+├── index.html      # Semantic advisory &amp; inline pixel SVGs
+├── styles.css      # Tactical dark terminal grid + CRT theme
+├── app.js          # PoC runner, Uncle Scanner, SHA-256 &amp; STUFFCON-1
+├── favicon.svg     # Pixel-art Turkey + Skull emblem
+└── _headers        # Cloudflare Pages security headers</code></pre>
+        <p class="muted-small">Advisory Classification: <code>ALERT: GRAVY-RED</code> • License: MIT (May Induce
+          Tryptophan)</p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="app.js" defer></script>
+</body>
+
+</html>
